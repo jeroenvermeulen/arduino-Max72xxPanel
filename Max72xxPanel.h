@@ -21,6 +21,10 @@
 #ifndef Max72xxPanel_h
 #define Max72xxPanel_h
 
+#include "Arduino.h"
+#include <Adafruit_GFX.h>
+#include <SPI.h>
+
 #if (ARDUINO >= 100)
   #include <Arduino.h>
 #else

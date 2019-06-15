@@ -14,10 +14,7 @@
  All text above must be included in any redistribution.
  ******************************************************************/
 
-#include "Arduino.h"
-#include <Adafruit_GFX.h>
 #include "Max72xxPanel.h"
-#include <SPI.h>
 
 // The opcodes for the MAX7221 and MAX7219
 #define OP_NOOP         0

@@ -37,8 +37,8 @@ setTextWrap	KEYWORD2
 setPosition	KEYWORD2
 setRotation	KEYWORD2
 getRotation	KEYWORD2
+printToDisplay KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
-

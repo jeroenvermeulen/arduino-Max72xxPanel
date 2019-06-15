@@ -192,7 +192,7 @@ void Max72xxPanel::spiTransfer(byte opcode, byte data) {
 	digitalWrite(SPI_CS, HIGH);
 }
 
-void Max72xxPanel::printToDisplay(String tape, int wait, int letter_width, int spacer) {
+void Max72xxPanel::scrollDrawText(String tape, int wait, int letter_width, int spacer) {
 	spacer += 1;
 	letter_width += 6;
 

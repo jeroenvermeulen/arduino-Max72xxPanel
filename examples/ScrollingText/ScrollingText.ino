@@ -33,5 +33,5 @@ void setup() {
 }
 
 void loop() {
-  matrix.printToDisplay(tape, wait);
+  matrix.scrollDrawText(tape, wait);
 }

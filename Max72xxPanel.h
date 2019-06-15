@@ -106,11 +106,15 @@ public:
   /*
    * Writes a tape to the display in scrolling text format
    * Parameters:
-   * spacer is space between letters
-   * letter_width is letter width
-   * wait controls the speed of text flow
+   * tape the string to be printed
+   * wait the delay between two steps while scrolling
+   * letter_width the width of the letters. Default is 6
+   * spacer the space between two letters. Default is 1
+   * color  the color of the text. Either HIGH or LOW. Default is HIGH
+   * bg the background of the text. Either HIGH or LOW. Default is LOW
+   * size the size of the text. Default is 1
    */
-  void scrollDrawText(String tape, int wait, int letter_width = 0, int spacer = 0);
+  void scrollDrawText(String tape, int wait, int letter_width = 6, int spacer = 1, uint16_t color = HIGH, uint16_t bg = LOW, uint8_t size = 1);
 
 private:
   byte SPI_CS; /* SPI chip selection */

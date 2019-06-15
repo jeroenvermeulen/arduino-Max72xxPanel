@@ -114,7 +114,7 @@ public:
    * bg the background of the text. Either HIGH or LOW. Default is LOW
    * size the size of the text. Default is 1
    */
-  void scrollDrawText(String tape, int wait, int letter_width = 6, int spacer = 1, uint16_t color = HIGH, uint16_t bg = LOW, uint8_t size = 1);
+  void scrollDrawText(String tape, uint16_t wait, uint8_t letter_width = 6, uint8_t spacer = 1, uint16_t color = HIGH, uint16_t bg = LOW, uint8_t size = 1);
 
 private:
   byte SPI_CS; /* SPI chip selection */

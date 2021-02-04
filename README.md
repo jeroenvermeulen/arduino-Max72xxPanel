@@ -8,6 +8,8 @@ Created by Mark Ruys, <mark@paracas.nl>, 2013.
 
 Edited by Patrick Neggie <patmn@umich.edu> 2018.
 
+Edited by Jeroen Vermeulen <info@jeroenvermeulen.eu> 2021.
+
 
 Installation
 ------------
@@ -26,7 +28,8 @@ Features
 
 Notable Additions
 -----
-A new function in the format `void printToDisplay(String tape, int wait)` takes in a two parameters: a string of what to print to the display and a integer wait time to change how fast the text scrolls on the display.
+- A new function in the format `void printToDisplay(String tape, int wait)` takes in a two parameters: a string of what to print to the display and a integer wait time to change how fast the text scrolls on the display.
+- Added software SPI support using the [MajenkoLibraries/SoftSPI](https://github.com/MajenkoLibraries/SoftSPI) library.
 
 Usage
 -----

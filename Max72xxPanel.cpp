@@ -1,6 +1,7 @@
 /******************************************************************
  A library for controling a set of 8x8 LEDs with a MAX7219 or
  MAX7221 displays.
+
  This is a plugin for Adafruit's core graphics library, providing
  basic graphics primitives (points, lines, circles, etc.).
  You need to download and install Adafruit_GFX to use this library.
@@ -33,25 +34,40 @@
 #define OP_DISPLAYTEST 15
 
 Max72xxPanel::Max72xxPanel(byte csPin, byte hDisplays, byte vDisplays) : Adafruit_GFX(hDisplays << 3, vDisplays << 3) {
-
   Max72xxPanel::SPI_CS = csPin;
 
+  SPI.begin();
+
+  initialize(hDisplays, vDisplays);
+}
+
+#ifdef SOFTSPI
+Max72xxPanel::Max72xxPanel(byte csPin, byte mosiPin, byte sclkPin, byte hDisplays, byte vDisplays) : Adafruit_GFX(hDisplays << 3, vDisplays << 3) {
+  Max72xxPanel::SPI_CS = csPin;
+  Max72xxPanel::SSPI_MOSI = mosiPin;
+  Max72xxPanel::SSPI_SCLK = sclkPin;
+
+  Max72xxPanel::softSPI = new SoftSPI(SSPI_MOSI, SSPI_MISO, SSPI_SCLK);
+  Max72xxPanel::softSPI->begin();
+
+  initialize(hDisplays, vDisplays);
+}
+#endif
+
+void Max72xxPanel::initialize(byte hDisplays, byte vDisplays) {
   byte displays = hDisplays * vDisplays;
   Max72xxPanel::hDisplays = hDisplays;
-	Max72xxPanel::bitmapSize = displays << 3;
+	bitmapSize = displays << 3;
 
-  Max72xxPanel::bitmap = (byte*)malloc(bitmapSize);
-  Max72xxPanel::matrixRotation = (byte*)malloc(displays);
-  Max72xxPanel::matrixPosition = (byte*)malloc(displays);
+  bitmap = (byte*)malloc(bitmapSize);
+  matrixRotation = (byte*)malloc(displays);
+  matrixPosition = (byte*)malloc(displays);
 
   for ( byte display = 0; display < displays; display++ ) {
   	matrixPosition[display] = display;
   	matrixRotation[display] = 0;
   }
 
-  SPI.begin();
-//SPI.setBitOrder(MSBFIRST);
-//SPI.setDataMode(SPI_MODE0);
   pinMode(SPI_CS, OUTPUT);
 
   // Clear the screen
@@ -183,8 +199,17 @@ void Max72xxPanel::spiTransfer(byte opcode, byte data) {
 	byte start = bitmapSize + end;
 	do {
 		start -= 8;
-		SPI.transfer(opcode);
-		SPI.transfer(opcode <= OP_DIGIT7 ? bitmap[start] : data);
+#ifdef SOFTSPI
+		if (-1 != SSPI_MOSI) {
+			softSPI->transfer(opcode);
+			softSPI->transfer(opcode <= OP_DIGIT7 ? bitmap[start] : data);
+		} else {
+#endif
+			SPI.transfer(opcode);
+			SPI.transfer(opcode <= OP_DIGIT7 ? bitmap[start] : data);
+#ifdef SOFTSPI
+		}
+#endif
 	}
 	while ( start > end );
 

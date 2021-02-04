@@ -17,6 +17,7 @@
  Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX7219-MAX7221.pdf
 
  ******************************************************************/
+#define SOFTSPI // Disabling saves 252 bytes of memory
 
 #ifndef Max72xxPanel_h
 #define Max72xxPanel_h
@@ -24,6 +25,9 @@
 #include "Arduino.h"
 #include <Adafruit_GFX.h>
 #include <SPI.h>
+#ifdef SOFTSPI
+#include <SoftSPI.h> // https://github.com/MajenkoLibraries/SoftSPI
+#endif
 
 #if (ARDUINO >= 100)
   #include <Arduino.h>
@@ -37,13 +41,26 @@ class Max72xxPanel : public Adafruit_GFX {
 public:
 
   /*
-   * Create a new controler
+   * Create a new controler - Hardware SPI
    * Parameters:
    * csPin		pin for selecting the device
    * hDisplays  number of displays horizontally
    * vDisplays  number of displays vertically
    */
   Max72xxPanel(byte csPin, byte hDisplays=1, byte vDisplays=1);
+
+  /*
+   * Create a new controler - Software SPI
+   * Parameters:
+   * csPin		  pin for selecting the device, CS/SS
+   * mosiPin		pin for data from master, MOSI/DIN
+   * sclkPin    pin for serial clock, SCLK/CLK/SCK
+   * hDisplays  number of displays horizontally
+   * vDisplays  number of displays vertically
+   */
+  #ifdef SOFTSPI
+  Max72xxPanel(byte csPin, byte mosiPin, byte sclkPin, byte hDisplays, byte vDisplays);
+  #endif
 
 	/*
 	 * Define how the displays are ordered. The first display (0)
@@ -117,7 +134,15 @@ public:
   void scrollDrawText(String tape, uint16_t wait = 45, uint8_t letter_width = 6, uint8_t spacer = 1, uint16_t color = HIGH, uint16_t bg = LOW, uint8_t size = 1);
 
 private:
-  byte SPI_CS; /* SPI chip selection */
+  byte SPI_CS;       /* SPI:     pin for CS            */
+#ifdef SOFTSPI
+  byte SSPI_MOSI=-1; /* SoftSPI: pin for MOSI/Data/DIN */
+  byte SSPI_MISO=-1; /* SoftSPI: pin for MISO          */
+  byte SSPI_SCLK=-1; /* SoftSPI: pin for SCLK/Clock    */
+#endif
+
+  /* Initialize the driver */
+  void initialize(byte hDisplays=1, byte vDisplays=1);
 
   /* Send out a single command to the device */
   void spiTransfer(byte opcode, byte data=0);
@@ -129,6 +154,10 @@ private:
   byte hDisplays;
   byte *matrixPosition;
   byte *matrixRotation;
+
+#ifdef SOFTSPI
+  SoftSPI* softSPI;
+#endif
 };
 
 #endif	// Max72xxPanel_h

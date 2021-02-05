@@ -47,7 +47,7 @@ public:
    * hDisplays  number of displays horizontally
    * vDisplays  number of displays vertically
    */
-  Max72xxPanel(byte csPin, byte hDisplays=1, byte vDisplays=1);
+  Max72xxPanel(int8_t csPin, uint8_t hDisplays=1, uint8_t vDisplays=1);
 
   /*
    * Create a new controler - Software SPI
@@ -59,14 +59,14 @@ public:
    * vDisplays  number of displays vertically
    */
   #ifdef SOFTSPI
-  Max72xxPanel(byte csPin, byte mosiPin, byte sclkPin, byte hDisplays, byte vDisplays);
+  Max72xxPanel(int8_t csPin, int8_t mosiPin, int8_t sclkPin, uint8_t hDisplays, uint8_t vDisplays);
   #endif
 
 	/*
 	 * Define how the displays are ordered. The first display (0)
 	 * is the one closest to the Arduino.
 	 */
-	void setPosition(byte display, byte x, byte y);
+	void setPosition(uint8_t display, uint8_t x, uint8_t y);
 
 	/*
 	 * Define if and how the displays are rotated. The first display
@@ -76,14 +76,14 @@ public:
 	 *   2: 180 degrees
 	 *   3: 90 degrees counter clockwise
 	 */
-	void setRotation(byte display, byte rotation);
+	void setRotation(uint8_t display, uint8_t rotation);
 
 	/*
 	 * Implementation of Adafruit's setRotation(). Probably, you don't
 	 * need this function as you can achieve the same result by using
 	 * the previous two functions.
 	 */
-	void setRotation(byte rotation);
+	void setRotation(uint8_t rotation);
 
   /*
    * Draw a pixel on your canvas. Note that for performance reasons,
@@ -112,7 +112,7 @@ public:
    * Paramaters:
    * intensity	the brightness of the display. (0..15)
    */
-  void setIntensity(byte intensity);
+  void setIntensity(uint8_t intensity);
 
   /*
    * After you're done filling the bitmap buffer with your picture,
@@ -134,26 +134,26 @@ public:
   void scrollDrawText(String tape, uint16_t wait = 45, uint8_t letter_width = 6, uint8_t spacer = 1, uint16_t color = HIGH, uint16_t bg = LOW, uint8_t size = 1);
 
 private:
-  byte SPI_CS;       /* SPI:     pin for CS            */
+  int8_t SPI_CS;       /* SPI:     pin for CS            */
 #ifdef SOFTSPI
-  byte SSPI_MOSI=-1; /* SoftSPI: pin for MOSI/Data/DIN */
-  byte SSPI_MISO=-1; /* SoftSPI: pin for MISO          */
-  byte SSPI_SCLK=-1; /* SoftSPI: pin for SCLK/Clock    */
+  int8_t SSPI_MOSI=-1; /* SoftSPI: pin for MOSI/Data/DIN */
+  int8_t SSPI_MISO=-1; /* SoftSPI: pin for MISO          */
+  int8_t SSPI_SCLK=-1; /* SoftSPI: pin for SCLK/Clock    */
 #endif
 
   /* Initialize the driver */
-  void initialize(byte hDisplays=1, byte vDisplays=1);
+  void initialize(uint8_t hDisplays=1, uint8_t vDisplays=1);
 
   /* Send out a single command to the device */
-  void spiTransfer(byte opcode, byte data=0);
+  void spiTransfer(uint8_t opcode, uint8_t data=0);
 
   /* We keep track of the led-status for 8 devices in this array */
-  byte *bitmap;
-  byte bitmapSize;
+  uint8_t *bitmap;
+  uint8_t bitmapSize;
 
-  byte hDisplays;
-  byte *matrixPosition;
-  byte *matrixRotation;
+  uint8_t hDisplays;
+  uint8_t *matrixPosition;
+  uint8_t *matrixRotation;
 
 #ifdef SOFTSPI
   SoftSPI* softSPI;

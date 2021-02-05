@@ -14,8 +14,12 @@ Edited by Jeroen Vermeulen <info@jeroenvermeulen.eu> 2021.
 Installation
 ------------
 
-Place the [Max72xxPanel][download] and [Adafruit_GFX][gfx-download] library folders in your `<arduinosketchfolder>/libraries/` folder. You may need to create the `libraries` subfolder if its your first library. Restart the Arduino IDE.
+Place these libraries in your [libraries][libraries-docs] folder:
+- [Max72xxPanel][download]
+- [Adafruit_GFX][gfx-download]  
+- [SoftSPI][softspi-download]
 
+You may need to create the `libraries` folder if its your first library. Restart the Arduino IDE.
 
 Features
 --------
@@ -29,7 +33,7 @@ Features
 Notable Additions
 -----
 - A new function in the format `void printToDisplay(String tape, int wait)` takes in a two parameters: a string of what to print to the display and a integer wait time to change how fast the text scrolls on the display.
-- Added software SPI support using the [MajenkoLibraries/SoftSPI](https://github.com/MajenkoLibraries/SoftSPI) library.
+- Added software SPI support using the [MajenkoLibraries/SoftSPI][softspi-download] library.
 
 Usage
 -----
@@ -41,6 +45,8 @@ At YouTube, you'll find a [ticker tape][tickertape] and [snake] demo.
 
 [download]: https://github.com/markruys/arduino-Max72xxPanel/archive/master.zip "Download Max72xxPanel library"
 [gfx-download]: https://github.com/adafruit/Adafruit-GFX-Library "Download Adafruit GFX Graphics Library"
+[softspi-download]: https://github.com/MajenkoLibraries/SoftSPI
+[libraries-docs]: https://www.arduino.cc/en/guide/libraries
 [gfx-docs]: http://learn.adafruit.com/adafruit-gfx-graphics-library/overview "Documentation Adafruit GFX Graphics Library"
 [examples]: https://github.com/markruys/arduino-Max72xxPanel/tree/master/examples "Show Max72xxPanel examples"
 [hardware]: https://www.google.com/search?q=MAX7219+Red+Dot+Matrix+Module "For kits, google MAX7219 Red Dot Matrix Module"
